@@ -8,3 +8,6 @@ tests/*_pre.byte
 
 grammar/*.tokens
 grammar/*.java
+
+.idea/
+.gradle/
