@@ -31,3 +31,9 @@ jobs:
           name: Build
           command: |
             ./gradlew build
+
+      - store_test_results:
+          path: build/reports/tests
+
+      - store_artifacts:
+          path: build/reports
