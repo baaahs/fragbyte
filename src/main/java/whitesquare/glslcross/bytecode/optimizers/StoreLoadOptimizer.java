@@ -61,6 +61,10 @@ public class StoreLoadOptimizer implements BytecodeOptimizer {
 			}
 			
 			if (instrName.startsWith("LOAD")) {
+				if (instr.valueInt + size >= program.maxSlots) {
+					System.out.println("StoreLoadOptimizer: " + instr.valueInt + size + " >= maxSlots: " + program.maxSlots);
+					return false;
+				}
 				for (int j = 0; j < size; j++)
 					lastLoad[instr.valueInt+j] = i;
 			}

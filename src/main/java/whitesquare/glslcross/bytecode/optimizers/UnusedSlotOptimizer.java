@@ -49,6 +49,10 @@ public class UnusedSlotOptimizer implements BytecodeOptimizer {
 		
 		for (int i = 0; i < parms.size(); i++) {
 			ProgramParameter p = parms.get(i);
+			if (p.slot + p.size >= slots.length) {
+				System.out.println("UnusedSlotOptimizer: " + p.slot + p.size + " + >= maxSlots: " + slots.length);
+				return false;
+			}
 			for (int j = 0; j < p.size; j++) {
 				slots[p.slot+j].used = true;
 				slots[p.slot+j].fixed = true;
@@ -176,8 +180,12 @@ public class UnusedSlotOptimizer implements BytecodeOptimizer {
 				if (executedChanges) changes = true;
 			}
 		}
-		
+
+		int oldMaxSlots = program.maxSlots;
 		program.maxSlots = curNewSlot+1;
+		if (oldMaxSlots != program.maxSlots) {
+			changes = true;
+		}
 		
 		return changes;
 	}

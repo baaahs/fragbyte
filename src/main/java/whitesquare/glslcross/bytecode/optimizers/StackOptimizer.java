@@ -23,12 +23,11 @@ public class StackOptimizer implements BytecodeOptimizer {
 		instrStackSize = new int[instrs.size()]; 
 		
 		int sp = 0;
-		boolean changed = true;
+		boolean changed = false;
 		
-		for (int pass = 0; pass < 1000 && changed; pass++) {
+		for (int pass = 0; pass < 1; pass++) {
 			System.out.println("StackOptimizer: Pass " + pass);
-			changed = false;
-			
+
 			sp = 0;
 			for (int i = 0; i < instrs.size(); i++) {
 				instrStackSize[i] = sp;
@@ -213,12 +212,14 @@ public class StackOptimizer implements BytecodeOptimizer {
 				}
 				sp += stackOut;
 			}
+
+			if (!changed) break;
 		}
 		
 		if (sp != 0)
 			System.out.println("Stack should be empty!! - At: " + sp);
 				
-		return false;
+		return changed;
 	}
 
 }

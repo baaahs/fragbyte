@@ -14,6 +14,7 @@ import whitesquare.glslcross.bytecode.analyzer.StackAnalyzer;
 import whitesquare.glslcross.bytecode.optimizers.*;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -55,8 +56,24 @@ public class GLSLCompiler {
 		for (int i = 0; i < 32; i++) {
 			boolean changes = false;
 			for (BytecodeOptimizer bytecodeOptimizer : bytecodeOptimizers) {
-				changes |= bytecodeOptimizer.optimize(program);
-			
+				Program clone = program.clone();
+				boolean changed = bytecodeOptimizer.optimize(clone);
+				if (changed) {
+					program = clone;
+					changes = true;
+				} else {
+					System.out.println("No changes from " + bytecodeOptimizer + " pass " + i);
+
+					if (!program.equals(clone)) {
+						StringWriter before = new StringWriter();
+						program.write(before);
+						StringWriter after = new StringWriter();
+						clone.write(after);
+
+						System.out.println("---> LIES!!!!");
+					}
+				}
+
 				StackAnalyzer stackAnalyzer = new StackAnalyzer(false);
 				if (!stackAnalyzer.analyze(program)) {
 					System.out.println("Resulting program is invalid!!! (Phase " + i + " : " + BytecodeOptimizer.class.getName() + ")");
