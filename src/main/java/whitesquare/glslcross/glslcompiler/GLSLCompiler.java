@@ -1,12 +1,7 @@
 package whitesquare.glslcross.glslcompiler;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-
-import whitesquare.glslcross.ast.Node;
 import whitesquare.glslcross.ast.Unit;
 import whitesquare.glslcross.ast.Variable;
 import whitesquare.glslcross.ast.optimizers.ASTOptimizer;
@@ -15,14 +10,10 @@ import whitesquare.glslcross.ast.optimizers.ConstantVariableInliner;
 import whitesquare.glslcross.ast.optimizers.OrderOptimizer;
 import whitesquare.glslcross.bytecode.Program;
 import whitesquare.glslcross.bytecode.analyzer.StackAnalyzer;
-import whitesquare.glslcross.bytecode.optimizers.BlockOptimizer;
-import whitesquare.glslcross.bytecode.optimizers.CombinerOptimizer;
-import whitesquare.glslcross.bytecode.optimizers.BytecodeOptimizer;
-import whitesquare.glslcross.bytecode.optimizers.StackOptimizer;
-import whitesquare.glslcross.bytecode.optimizers.StoreLoadOptimizer;
-import whitesquare.glslcross.bytecode.optimizers.UnusedSlotOptimizer;
-import whitesquare.glslcross.glslcompiler.GLSLLexer;
-import whitesquare.glslcross.glslcompiler.GLSLParser;
+import whitesquare.glslcross.bytecode.optimizers.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class GLSLCompiler {
 	public String prefix = "tests/test8"; 

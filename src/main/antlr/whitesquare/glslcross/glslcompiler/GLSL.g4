@@ -1,6 +1,8 @@
 grammar GLSL;
 
 @header {
+package whitesquare.glslcross.glslcompiler;
+
 import java.util.Stack;
 
 import whitesquare.glslcross.ast.*;

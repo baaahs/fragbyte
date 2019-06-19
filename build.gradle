@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'antlr'
 }
 
 repositories {
@@ -10,14 +11,7 @@ sourceCompatibility = '1.8'
 targetCompatibility = '1.8'
 version = '1.2.1'
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-    }
-}
-
 dependencies {
+    antlr 'org.antlr:antlr4:4.7.2'
     implementation 'org.antlr:antlr4:4.7.2'
 }
