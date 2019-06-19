@@ -14,4 +14,7 @@ version = '1.2.1'
 dependencies {
     antlr 'org.antlr:antlr4:4.7.2'
     implementation 'org.antlr:antlr4:4.7.2'
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.google.truth:truth:0.45'
 }

@@ -1,6 +1,7 @@
 package whitesquare.glslcross.bytecode.optimizers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import whitesquare.glslcross.bytecode.Bytecode;
 import whitesquare.glslcross.bytecode.Instruction;
@@ -13,7 +14,7 @@ public class StoreLoadOptimizer implements BytecodeOptimizer {
 	public boolean optimize(Program program) {
 		boolean changes = false;
 		
-		ArrayList<Instruction> instrs = program.instructions;
+		List<Instruction> instrs = program.instructions;
 		
 		int[] lastStore = new int[program.maxSlots];
 		int[] lastLoad = new int[program.maxSlots];

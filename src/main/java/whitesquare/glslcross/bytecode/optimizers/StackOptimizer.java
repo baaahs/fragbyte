@@ -2,6 +2,7 @@ package whitesquare.glslcross.bytecode.optimizers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import whitesquare.glslcross.bytecode.Bytecode;
@@ -16,7 +17,7 @@ public class StackOptimizer implements BytecodeOptimizer {
 		
 	@Override
 	public boolean optimize(Program program) {
-		ArrayList<Instruction> instrs = program.instructions;
+		List<Instruction> instrs = program.instructions;
 		Map<String, Instruction> functions = new HashMap<String, Instruction>();
 
 		instrStackSize = new int[instrs.size()]; 

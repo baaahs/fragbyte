@@ -11,3 +11,4 @@ grammar/*.java
 
 .idea/
 .gradle/
+out/

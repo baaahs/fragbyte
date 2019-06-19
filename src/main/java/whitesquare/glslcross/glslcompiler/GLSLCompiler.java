@@ -70,7 +70,11 @@ public class GLSLCompiler {
 		}
 	}
 	
-	public void parse(Path srcFile, Path destDir) {
+	public void compile(Path srcFile) {
+		compile(srcFile, srcFile.getParent());
+	}
+
+	public void compile(Path srcFile, Path destDir) {
 		System.out.println("Compiling: " + srcFile);
 		
 		LogWriter log = new LogWriter();
@@ -141,8 +145,7 @@ public class GLSLCompiler {
 		GLSLCompiler compiler = new GLSLCompiler();
 
 		for (String arg : args) {
-			Path srcFile = Paths.get(arg);
-			compiler.parse(srcFile, srcFile.getParent());
+			compiler.compile(Paths.get(arg));
 		}
 	}
 }

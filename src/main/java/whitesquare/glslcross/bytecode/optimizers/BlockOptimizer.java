@@ -1,6 +1,7 @@
 package whitesquare.glslcross.bytecode.optimizers;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -10,7 +11,7 @@ import whitesquare.glslcross.bytecode.Program;
 
 public class BlockOptimizer implements BytecodeOptimizer {
 	class Block {
-		ArrayList<Instruction>	instructions = new ArrayList<Instruction>();
+		List<Instruction>	instructions = new ArrayList<Instruction>();
 		
 		boolean	barrier = false;
 		int startLoadSlot = -1;
@@ -22,12 +23,12 @@ public class BlockOptimizer implements BytecodeOptimizer {
 		Set<Integer> slotLoads = new TreeSet<Integer>();
 		Set<Integer> slotTrash = new TreeSet<Integer>();
 		
-		Block(ArrayList<Instruction> contents, int index, boolean barrier) {
+		Block(List<Instruction> contents, int index, boolean barrier) {
 			this.barrier = barrier;
 			instructions.add(contents.get(index));
 		}
 		
-		Block(ArrayList<Instruction> contents, int start, int end) {
+		Block(List<Instruction> contents, int start, int end) {
 			for (int i = start; i < end; i++)
 				instructions.add(contents.get(i));
 		}
@@ -65,7 +66,7 @@ public class BlockOptimizer implements BytecodeOptimizer {
 	
 	@Override
 	public boolean optimize(Program program) {
-		ArrayList<Instruction> instrs = program.instructions;
+		List<Instruction> instrs = program.instructions;
 		
 		int blockStart = -1;
 		int sp = 0;

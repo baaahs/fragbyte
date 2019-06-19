@@ -1,6 +1,7 @@
 package whitesquare.glslcross.bytecode.optimizers;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import whitesquare.glslcross.bytecode.Bytecode;
 import whitesquare.glslcross.bytecode.Instruction;
@@ -80,7 +81,7 @@ public class CombinerOptimizer implements BytecodeOptimizer {
 	
 	@Override
 	public boolean optimize(Program program) {		
-		ArrayList<Instruction> instrs = program.instructions;
+		List<Instruction> instrs = program.instructions;
 		
 		boolean changes = false;
 		boolean executedChange = false;

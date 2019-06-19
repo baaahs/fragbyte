@@ -2,6 +2,7 @@ package whitesquare.glslcross.bytecode.analyzer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import whitesquare.glslcross.bytecode.Bytecode;
@@ -20,7 +21,7 @@ public class StackAnalyzer implements Analyzer {
 	
 	@Override
 	public boolean analyze(Program program) {
-		ArrayList<Instruction> instrs = program.instructions;
+		List<Instruction> instrs = program.instructions;
 		Map<String, Instruction> functions = new HashMap<String, Instruction>();
 		
 		int stack = 0;

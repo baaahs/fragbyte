@@ -1,0 +1,6 @@
+SLOTS 1
+STACK 0
+
+IN gl_FragCoord 4 2
+OUT gl_FragColor 0 4
+
