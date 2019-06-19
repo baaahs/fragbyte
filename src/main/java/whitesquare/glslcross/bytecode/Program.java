@@ -1,16 +1,18 @@
 package whitesquare.glslcross.bytecode;
 
+import whitesquare.glslcross.bytecode.ProgramParameter.Type;
+
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
-
-import whitesquare.glslcross.bytecode.ProgramParameter.Type;
+import java.util.List;
 
 public class Program {
 	public int maxSlots = 0;
 	public int maxStack = 0;
-	public ArrayList<Instruction>		instructions = new ArrayList<Instruction>();
-	public ArrayList<ProgramParameter>	parameters = new ArrayList<ProgramParameter>();
+	public List<Instruction> instructions = new ArrayList<>();
+	public List<ProgramParameter>	parameters = new ArrayList<>();
 	
 	public Program() {
 		
@@ -36,11 +38,11 @@ public class Program {
 		parameters.add(new ProgramParameter(Type.OUT, slot, size, name));
 	}
 	
-	public void writeOut(String filename) {
+	public void writeOut(Path destFile) {
 		FileWriter writer;
 		
 		try {			
-			writer = new FileWriter(filename);
+			writer = new FileWriter(destFile.toFile());
 			
 			writer.write(Bytecode.SLOTS + " " + maxSlots + "\n");
 			writer.write(Bytecode.STACK + " " + maxStack + "\n");

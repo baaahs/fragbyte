@@ -1,6 +1,7 @@
 package whitesquare.glslcross.glslcompiler;
 
-import org.antlr.v4.runtime.ANTLRFileStream;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import whitesquare.glslcross.ast.Unit;
 import whitesquare.glslcross.ast.Variable;
@@ -13,17 +14,15 @@ import whitesquare.glslcross.bytecode.analyzer.StackAnalyzer;
 import whitesquare.glslcross.bytecode.optimizers.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GLSLCompiler {
-	public String prefix = "tests/test8"; 
-	
-	public GLSLCompiler() {
-		parse(prefix + ".glsl");
-	}
-	
-	public void optimizeAST(Unit ast) {
-		ArrayList<ASTOptimizer> astOptimizers = new ArrayList<ASTOptimizer>();
+
+	private void optimizeAST(Unit ast) {
+		List<ASTOptimizer> astOptimizers = new ArrayList<>();
 		
 		astOptimizers.add(new OrderOptimizer());
 		astOptimizers.add(new ConstantVariableInliner());
@@ -42,8 +41,8 @@ public class GLSLCompiler {
 		}
 	}
 	
-	public void optimize(Program program) {
-		ArrayList<BytecodeOptimizer> bytecodeOptimizers = new ArrayList<BytecodeOptimizer>();
+	private void optimize(Program program) {
+		List<BytecodeOptimizer> bytecodeOptimizers = new ArrayList<>();
 		
 		bytecodeOptimizers.add(new StoreLoadOptimizer());
 		bytecodeOptimizers.add(new UnusedSlotOptimizer());
@@ -71,13 +70,13 @@ public class GLSLCompiler {
 		}
 	}
 	
-	public void parse(String filename) {
-		System.out.println("Compiling: " + filename);
+	public void parse(Path srcFile, Path destDir) {
+		System.out.println("Compiling: " + srcFile);
 		
 		LogWriter log = new LogWriter();
 		
 		try {
-			ANTLRFileStream stream = new ANTLRFileStream(filename);
+			CharStream stream = CharStreams.fromPath(srcFile);
 			GLSLLexer lexer = new GLSLLexer(stream);
 			GLSLParser parser = new GLSLParser(new CommonTokenStream(lexer));
 			parser.setLog(log);
@@ -102,7 +101,7 @@ public class GLSLCompiler {
 			bytecodeWriter.getProgram().setMaxSlots(variables.size());
 			
 			Program program = bytecodeWriter.getProgram();
-			program.writeOut(prefix + "_pre.byte");
+			program.writeOut(destDir.resolve(srcFile.getFileName() + "_pre.byte"));
 			
 			StackAnalyzer stackAnalyzer = new StackAnalyzer(true);
 			if (!stackAnalyzer.analyze(program)) {
@@ -111,7 +110,7 @@ public class GLSLCompiler {
 			}
 
 			program.setMaxStack(stackAnalyzer.maxStack);
-			program.writeOut(prefix + "_orig.byte");
+			program.writeOut(destDir.resolve(srcFile.getFileName() + "_orig.byte"));
 			
 			optimize(program);
 			
@@ -124,7 +123,7 @@ public class GLSLCompiler {
 				System.out.println("Resulting program is invalid!!!");
 			} else {
 				program.setMaxStack(stackAnalyzerOpt.maxStack);
-				program.writeOut(prefix + ".byte");
+				program.writeOut(destDir.resolve(srcFile.getFileName() + ".byte"));
 			}
 			
 			System.out.println("Done");
@@ -134,6 +133,16 @@ public class GLSLCompiler {
 	}
 	
 	public static void main(String[] args) {
-		new GLSLCompiler();
+		if (args.length == 0) {
+			System.err.println("Usage: GLSLCompiler input-file.glsl [...]");
+			System.exit(1);
+		}
+
+		GLSLCompiler compiler = new GLSLCompiler();
+
+		for (String arg : args) {
+			Path srcFile = Paths.get(arg);
+			compiler.parse(srcFile, srcFile.getParent());
+		}
 	}
 }
