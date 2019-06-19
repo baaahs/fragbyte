@@ -127,7 +127,7 @@ public class GLSLCompiler {
 				System.out.println("Resulting program is invalid!!!");
 			} else {
 				program.setMaxStack(stackAnalyzerOpt.maxStack);
-				program.writeOut(destDir.resolve(srcFile.getFileName() + ".byte"));
+				program.writeOut(destDir.resolve(srcFile.getFileName().toString().replace(".glsl", ".byte")));
 			}
 			
 			System.out.println("Done");
