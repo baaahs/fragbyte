@@ -228,7 +228,7 @@ atom returns [Value value]:
 		(
 			SWIZZLE
 			{
-				Swizzle swizzle = new Swizzle($atom.value.type, $SWIZZLE.text.substring(1));
+				Swizzle swizzle = new Swizzle($value.type, $SWIZZLE.text.substring(1));
 				$value = new SwizzleValue($value, swizzle);
 			}
 		)?
@@ -344,7 +344,7 @@ STRING :
     ;
 
 fragment ESCSEQ :
-	'\\' ('b'|'t'|'n'|'f'|'r'|'\"'|'\''|'\\')
+	'\\' ('b'|'t'|'n'|'f'|'r'|'"'|'\''|'\\')
     ;
 
 WS : 
