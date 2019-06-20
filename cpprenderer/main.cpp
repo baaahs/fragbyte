@@ -20,7 +20,7 @@ int main(int argc, char const *argv[]) {
 	int width = 800;
 	int height = 450;
 
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_EVENTS);
 
 	SDL_Window* window = SDL_CreateWindow("GLSL", 0, 0, width, height, SDL_WINDOW_SHOWN);
 	SDL_Renderer* ren = SDL_CreateRenderer(window, -1, 0);
@@ -28,6 +28,9 @@ int main(int argc, char const *argv[]) {
 
 	Program program;
 	program.parse(argc == 2 ? argv[1] : "../tests/test2.byte");
+    if (!program.valid) {
+        return 1;
+    }
 
 	VM vm(program, width*height);
 

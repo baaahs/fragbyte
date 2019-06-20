@@ -70,7 +70,12 @@ struct VM {
 		uint64_t start = (uint64_t)ts.tv_sec * 1000000LL + (uint64_t)ts.tv_nsec / 1000LL;
 
 		int startIp = ip;
-		bool res = doInstr();
+
+        if (ip >= program.instructions.size()) {
+            return false;
+        }
+
+        bool res = doInstr();
 
 		timespec ts_end;
 		clock_gettime(CLOCK_REALTIME, &ts);

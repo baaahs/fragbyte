@@ -18,7 +18,7 @@ struct Program {
 	void parse(string filename) {
 		ifstream input(filename);
 
-		if (input.bad()) {
+		if (!input.good()) {
 			cout << "Error opening: " << filename << endl;
 			return;
 		}
@@ -286,12 +286,15 @@ struct Program {
 			else
 				cerr << "Line " << lineNum << ": Unhandled bytecode: " << tokens[0] << endl;
 		}
+
+		valid = true;
 	}
 
 	int maxSlots;
 	int maxStack;
 	vector<Instruction>	instructions;
 	map<string, int> functions;
+	bool valid;
 };
 
 #endif
